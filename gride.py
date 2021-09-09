@@ -33,3 +33,5 @@ while ( count2 > 0):
         turtle.right(90)
         count2 -= 1
         distance2 -=100
+
+turtle.exitonclick()
