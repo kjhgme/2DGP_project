@@ -1,3 +1,35 @@
-Python 3.9.7 (tags/v3.9.7:1016ef3, Aug 30 2021, 20:19:38) [MSC v.1929 64 bit (AMD64)] on win32
-Type "help", "copyright", "credits" or "license()" for more information.
->>> 
+import turtle
+count = 5
+turtle.penup()
+turtle.goto(-200, 200)
+turtle.pendown()
+distance = 500
+while ( count > 0):
+        turtle.forward(distance)
+        turtle.right(90)
+        turtle.forward(distance)
+        turtle.right(90)
+        turtle.forward(distance)
+        turtle.right(90)
+        turtle.forward(distance)
+        turtle.right(90)
+        count -= 1
+        distance -=100
+
+turtle.penup()
+turtle.goto(300, -300)
+turtle.pendown()
+turtle.right(180)
+count2 = 4
+distance2 = 400
+while ( count2 > 0):
+        turtle.forward(distance2)
+        turtle.right(90)
+        turtle.forward(distance2)
+        turtle.right(90)
+        turtle.forward(distance2)
+        turtle.right(90)
+        turtle.forward(distance2)
+        turtle.right(90)
+        count2 -= 1
+        distance2 -=100
