@@ -23,6 +23,7 @@ def turtle_move_right():
 def restart():
     turtle.reset()
 
+
 turtle.shape('turtle')
 turtle.stamp()
 turtle.onkey(turtle_move_up, 'w')
