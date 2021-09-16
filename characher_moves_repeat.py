@@ -1,4 +1,5 @@
 from pico2d import *
+import math
 os.chdir('d:/2DGP/2DGP_project/Lecture04_2D_Rendering')
 open_canvas()
 
@@ -39,7 +40,17 @@ def move_square():
         x += 2
         delay(0.01)
 
+def move_circle():
+    angle = 0
+    while angle < 360:
+        clear_canvas_now()
+        grass.draw_now(400, 30)
+        character.draw_now(400 + 250 * math.sin((angle * math.pi) / 180), 335 + 250 * math.cos(((180+angle)*math.pi) / 180))
+        angle += 2
+        print(angle)
+        delay(0.01)
 
-move_square()
-delay(1)
-close_canvas()
+while True:
+    move_square()
+    move_circle()
+
