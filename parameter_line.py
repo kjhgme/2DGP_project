@@ -1,6 +1,5 @@
 import turtle
 import random
-import math
 
 
 def stop():
@@ -68,25 +67,20 @@ def draw_line_basic(p1, p2):
 
 
 def draw_line(p1, p2):
-#    draw_big_point(p1)
-#    draw_big_point(p2)
+    draw_big_point(p1)
+    draw_big_point(p2)
     x1, y1 = p1[0], p1[1]
     x2, y2 = p2[0], p2[1]
-    a = 30
-    b = 60
 
     for i in range(0, 100+1, 2):
-        t = i/100 * 2 * math.pi
-        # x = (1 - t) * x1 + t * x2
-        # y = (1 - t) * y1 + t * y2
-        x = ((a - b) * math.cos(t) + (b * math.cos(t * (a/b) - 1)))
-        y = ((a - b) * math.sin(t) - (b * math.sin(t * (a/b) - 1)))
+        t = i/100
+        x = (1-t) * x1 + t * x2
+        y = (1-t) * y1 + t * y2
         draw_point((x, y))
 
-
-    # draw_point(p2)
+    draw_point(p2)
 
 prepare_turtle_canvas()
-draw_line((10, 10), (0, 0))
+# draw_line((-100, -100), (-100, 150))
 
 turtle.done()
