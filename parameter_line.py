@@ -73,9 +73,7 @@ def draw_line(a, b):
         x = (a - b) * math.cos(t) + b * math.cos(t * ((a/b) - 1))
         y = (a - b) * math.sin(t) - b * math.sin(t * ((a/b) - 1))
 
-        k = a / b
         draw_point((x, y))
-
 
 prepare_turtle_canvas()
 # draw_line((-100, -100), (-100, 150))
