@@ -59,14 +59,17 @@ class Ball:
         self.falling_speed = random.randint(1, 10)
 
     def update(self):
-        if(self.y <= 100):
+        if(self.y <= 70):
             pass
         else:
             self.y -= self.falling_speed
         self.frame = 0
 
     def draw(self):
-        self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
+        if (self.x % 2 == 1):
+            self.image.clip_draw(self.frame * 100, 0, 21, 21, self.x, self.y)
+        else:
+            self.image.clip_draw(self.frame * 100, 0, 41, 41, self.x, self.y)
 
 def handle_events():
     global running
