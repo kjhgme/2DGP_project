@@ -19,9 +19,9 @@ class Bird:
         self.direction = 0
 
     def update(self):
-        if self.direction == 0:
+        if self.direction <= 0:
             self.x += game_framework.frame_time * BIRD_SPEED_PPS
-        else:
+        elif self.direction >= 1:
             self.x -= game_framework.frame_time * BIRD_SPEED_PPS
 
         self.frame = (self.frame + BIRD_SPEED_PPS * game_framework.frame_time) % 14
