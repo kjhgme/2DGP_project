@@ -1,8 +1,11 @@
 from pico2d import *
+import game_world
+import ball
+
 
 # Boy Event
 # fill here
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SLEEP_TIMER, DASH, DASH_UP = range(7)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SLEEP_TIMER, DASH, DASH_UP, SPACE = range(8)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
@@ -12,7 +15,8 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_LSHIFT) : DASH,
     (SDL_KEYDOWN, SDLK_RSHIFT) : DASH,
     (SDL_KEYUP, SDLK_LSHIFT) : DASH_UP,
-    (SDL_KEYUP, SDLK_RSHIFT) : DASH_UP
+    (SDL_KEYUP, SDLK_RSHIFT) : DASH_UP,
+    (SDL_KEYDOWN, SDLK_SPACE): SPACE
 }
 
 
@@ -30,6 +34,8 @@ class IdleState:
             boy.velocity -= 1
         elif event == LEFT_UP:
             boy.velocity += 1
+        elif event == SPACE:
+            boy.fire_ball()
         boy.timer = 1000
 
     def exit(boy, event):
@@ -57,6 +63,8 @@ class RunState:
             boy.velocity -= 1
         elif event == LEFT_UP:
             boy.velocity += 1
+        elif event == SPACE:
+            boy.fire_ball()
         boy.dir = boy.velocity
 
     def exit(boy, event):
@@ -95,12 +103,13 @@ class SleepState:
 class DashState:
     def enter(boy, event):
         boy.dashtime = 150
+        if event == SPACE:
+            boy.fire_ball()
 
     def exit(boy, event):
         pass
 
     def do(boy):
-
         boy.frame = (boy.frame + 1) % 8
         boy.timer -= 1
         if boy.velocity == 1:
@@ -122,18 +131,14 @@ next_state_table = {
 # fill here
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState,
                 RIGHT_DOWN: RunState, LEFT_DOWN: RunState,
-                SLEEP_TIMER: SleepState, DASH: IdleState, DASH_UP: IdleState},
+                SLEEP_TIMER: SleepState, DASH: IdleState, DASH_UP: IdleState, SPACE: IdleState},
     RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState,
-               RIGHT_DOWN: IdleState, LEFT_DOWN: IdleState, DASH: DashState, DASH_UP: RunState},
+               RIGHT_DOWN: IdleState, LEFT_DOWN: IdleState, DASH: DashState, DASH_UP: RunState, SPACE: RunState},
     SleepState: {LEFT_DOWN: RunState, RIGHT_DOWN: RunState,
-                 LEFT_UP: RunState, RIGHT_UP: RunState, DASH: SleepState, DASH_UP: SleepState},
+                 LEFT_UP: RunState, RIGHT_UP: RunState, DASH: SleepState, DASH_UP: SleepState, SPACE: IdleState},
     DashState: {LEFT_DOWN: DashState, RIGHT_DOWN: DashState, DASH: DashState, DASH_UP: RunState,
-                LEFT_UP: IdleState, RIGHT_UP: IdleState}
+                LEFT_UP: IdleState, RIGHT_UP: IdleState, SPACE: DashState}
 }
-
-
-
-
 
 
 
@@ -162,6 +167,10 @@ class Boy:
         # fill here
         self.event_que.insert(0, event)
         pass
+
+    def fire_ball(self):
+        ball1 = ball.Ball(self.x, self.y, self.dir*3)
+        game_world.add_object(ball1, 1)
 
 
     def update(self):
