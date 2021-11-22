@@ -50,8 +50,6 @@ def enter():
     brick = Brick()
     game_world.add_object(brick, 1)
 
-
-
 def exit():
     game_world.clear()
 
