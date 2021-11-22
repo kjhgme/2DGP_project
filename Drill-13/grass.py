@@ -1,10 +1,16 @@
 from pico2d import *
+import server
+import collision
 
 class Grass:
     def __init__(self):
         self.image = load_image('grass.png')
 
     def update(self):
+        for ball in server.balls:
+            if collision.collide(self, ball):
+                ball.stop()
+
         pass
 
     def draw(self):

@@ -5,6 +5,7 @@ import os
 from pico2d import *
 import game_framework
 import game_world
+import server
 
 from boy import Boy
 from grass import Grass
@@ -13,42 +14,23 @@ from brick import Brick
 
 name = "MainState"
 
-boy = None
-grass = None
-balls = []
-brick = None
 
-def collide(a, b):
-    # fill here
-    left_a, bottom_a, right_a, top_a = a.get_bb()
-    left_b, bottom_b, right_b, top_b = b.get_bb()
-
-    if left_a > right_b: return False
-    if right_a < left_b: return False
-    if top_a < bottom_b: return False
-    if bottom_a > top_b: return False
-
-    return True
 
 
 
 
 def enter():
-    global boy
-    boy = Boy()
-    game_world.add_object(boy, 1)
+    server.boy = Boy()
+    game_world.add_object(server.boy, 1)
 
-    global grass
-    grass = Grass()
-    game_world.add_object(grass, 0)
+    server.grass = Grass()
+    game_world.add_object(server.grass, 0)
 
-    global balls
-    balls = [Ball() for i in range(200)]
-    game_world.add_objects(balls, 1)
+    server.balls = [Ball() for i in range(200)]
+    game_world.add_objects(server.balls, 1)
 
-    global brick
-    brick = Brick()
-    game_world.add_object(brick, 1)
+    server.brick = Brick()
+    game_world.add_object(server.brick, 1)
 
 def exit():
     game_world.clear()
@@ -69,22 +51,34 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
                 game_framework.quit()
         else:
-            boy.handle_event(event)
+            server.boy.handle_event(event)
 
 
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
 
-    for ball in balls.copy():
-        if collide(ball, grass):
-            ball.stop()
-        if collide(ball, boy):
-            balls.remove(ball)
-            game_world.remove_object(ball)
-        if collide(ball, brick):
-            ball.stop()
-            ball.withBrick()
+    # ball과 grass의 총돌을 체크하고 처리. 이건 어디서 하면 좋을까?
+    # 상관은 없지만. 잔디가 충돌을 체크.
+    # ball과 brick의 처리.
+
+
+#    for ball in balls.copy():
+#        if collide(ball, grass):
+#            ball.stop()
+#        if collide(ball, boy):
+#            balls.remove(ball)
+#            game_world.remove_object(ball)
+#        elif collide(ball, brick):
+#            brick.attach_ball(ball)
+#            balls.remove(ball)  #발판에 포함됐기 때문에 충돌체크X
+#        else:   #볼이 발판 안의 공과 총될되는지
+#            for brick_ball in brick.child_balls:    #가각의 벽돌안의 공들과
+#                if collide(ball, brick_ball):
+#                    brick.attach_ball(ball)
+#                    balls.remove(ball)
+#                    break
+
 
 
 def draw():
